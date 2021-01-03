@@ -358,6 +358,7 @@ sudo vim /etc/nginx/sites-available/PROJECT_NAME
 
         location / {
             proxy_pass http://127.0.0.1:8001;
+            proxy_set_header Host $host;
             proxy_set_header X-Forwarded-Host $server_name;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -414,6 +415,7 @@ sudo mv archive/ live/ renewal/ options-ssl-nginx.conf /etc/letsencrypt/
 
 ```
 git pull
+pip install -r requirements.txt
 sudo supervisorctl stop PROJECT_NAME
 flask db upgrade
 sudo supervisorctl start PROJECT_NAME
