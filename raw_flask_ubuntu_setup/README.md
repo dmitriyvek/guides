@@ -335,7 +335,13 @@ sudo vim /etc/supervisor/conf.d/PROJECT_NAME.conf
 sudo service supervisor restart
 ```
 
-## Nginx setup
+## Nginx setup with certbot
+
+Generate ssl keys for given domain without installing (authomatic changing any configuration)
+
+```
+sudo certbot certonly --nginx -d dmitriyvek.com -d www.dmitriyvek.com
+```
 
 Delete default config and create custom:
 
@@ -343,15 +349,16 @@ Delete default config and create custom:
 sudo rm /etc/nginx/sites-available/default
 sudo vim /etc/nginx/sites-available/PROJECT_NAME
     server {
-        listen [::]:443 ssl ipv6only=on; # managed by Certbot
-        listen 443 ssl; # managed by Certbot
+        #listen [::]:443 ssl ipv6only=on;
+        listen [::]:443 ssl;
+        listen 443 ssl;
         server_name dmitriyvek.com www.dmitriyvek.com;
 
-        ssl_certificate /etc/letsencrypt/live/dmitriyvek.com/fullchain.pem; # managed by Certbot
-        ssl_certificate_key /etc/letsencrypt/live/dmitriyvek.com/privkey.pem; # managed by Certbot
+        ssl_certificate /etc/letsencrypt/live/dmitriyvek.com/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/dmitriyvek.com/privkey.pem;
 
-        include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+        include /etc/letsencrypt/options-ssl-nginx.conf;
+        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
         access_log /var/log/myblog_access.log;
         error_log /var/log/myblog_error.log;
@@ -371,25 +378,27 @@ sudo vim /etc/nginx/sites-available/PROJECT_NAME
     server {
         if ($host = www.dmitriyvek.com) {
             return 301 https://$host$request_uri;
-        } # managed by Certbot
+        }
 
 
         if ($host = dmitriyvek.com) {
             return 301 https://$host$request_uri;
-        } # managed by Certbot
+        }
 
 
-        listen 80 default_server;
-        listen [::]:80 default_server;
+        #listen 80 default_server;
+        #listen [::]:80 default_server;
+        listen 80;
+        listen [::]:80;
 
         server_name dmitriyvek.com www.dmitriyvek.com;
-        return 404; # managed by Certbot
+        return 404;
     }
 
 sudo ln -s /etc/nginx/sites-available/PROJECT_NAME /etc/nginx/sites-enabled/
-sudo certbot --nginx -d dmitriyvek.com -d www.dmitriyvek.com
 sudo nginx -t
 sudo nginx -s reload
+
 sudo certbot renew --dry-run
 ```
 
@@ -402,7 +411,7 @@ cd /etc/letsencrypt && sudo tar -czvf ~/backup.tar.gz archive/ live/ renewal/ op
 scp test_server:~/backup.tar.gz ~/place_on_local_machine
 
 # from remote to another remote
-scp backup.tar.gz [your-user]@[your-srever-ip]:/my/new/letsenrcypt/path
+scp backup.tar.gz [your-user]@[your-server-ip]:/my/new/letsenrcypt/path
 
 rm ~/backpup.tar.gz
 
