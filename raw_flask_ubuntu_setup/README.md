@@ -335,6 +335,50 @@ sudo vim /etc/supervisor/conf.d/PROJECT_NAME.conf
 sudo service supervisor restart
 ```
 
+Setup systemd:
+
+```
+sudo vim /etc/systemd/system/NAME.service
+    [Unit]
+    Description=Chat-App gunicorn server
+    After=network.target
+
+    [Service]
+    Type=notify
+    User=www
+    WorkingDirectory=/home/www/code/chat/backend/
+    ExecStart=/bin/bash /home/www/code/chat/backend/bin/start_gunicorn.sh
+    ExecReload=/bin/kill -s HUP $MAINPID
+    KillMode=mixed
+    TimeoutStopSec=5
+    PrivateTmp=true
+
+    [Install]
+    WantedBy=multi-user.target
+
+sudo systemctl enable NAME.service
+sudo systemctl status NAME.service
+#sudo systemctl daemon-reload
+```
+
+Daphne systemd config:
+
+```
+[Unit]
+Description=Chat-App Daphne Service
+After=network.target
+
+[Service]
+#Type=simple
+Type=notify
+User=www
+WorkingDirectory=/home/www/code/chat/backend/
+ExecStart=/bin/bash /home/www/code/chat/backend/bin/start_daphne.sh
+
+[Install]
+WantedBy=multi-user.target
+```
+
 ## Nginx setup with certbot
 
 Generate ssl keys for given domain without installing (authomatic changing any configuration)
