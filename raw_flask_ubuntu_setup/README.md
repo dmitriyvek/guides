@@ -90,7 +90,7 @@ sudo ufw enable
 ## Install must-have packages & ZSH
 
 ```
-sudo apt-get install -y zsh tree nginx zlib1g-dev libbz2-dev libreadline-dev llvm libncurses5-dev libncursesw5-dev xz-utils liblzma-dev python3-dev python3-lxml python-libxml2  libffi-dev libssl-dev libsqlite3-dev libpq-dev libxml2-dev libxslt1-dev libjpeg-dev libfreetype6-dev libcurl4-openssl-dev libgdbm-dev libnss3-dev supervisor virtualen certbot python3-certbot-nginx
+sudo apt-get install -y zsh tree nginx zlib1g-dev libbz2-dev libreadline-dev llvm libncurses5-dev libncursesw5-dev xz-utils liblzma-dev python3-dev python3-lxml python-libxml2  libffi-dev libssl-dev libsqlite3-dev libpq-dev libxml2-dev libxslt1-dev libjpeg-dev libfreetype6-dev libcurl4-openssl-dev libgdbm-dev libnss3-dev supervisor virtualenv certbot python3-certbot-nginx
 ```
 
 Install [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh):
