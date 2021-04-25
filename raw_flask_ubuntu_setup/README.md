@@ -240,7 +240,7 @@ sudo /home/www/.python/bin/python3.8 -m pip install -U pip
 Generate new ssh key and add it to github:
 
 ```
-ssh-keygen -b 3072
+ssh-keygen -b 3072 -f github_rsa
 
 # if custom key name
 vim ~/.ssh/config
