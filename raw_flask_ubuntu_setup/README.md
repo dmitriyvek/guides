@@ -345,7 +345,8 @@ sudo vim /etc/systemd/system/NAME.service
     After=network.target
 
     [Service]
-    Type=notify
+    #Type=notify
+    Type=simple
     User=www
     WorkingDirectory=/home/www/code/chat/backend/
     ExecStart=/bin/bash /home/www/code/chat/backend/bin/start_gunicorn.sh
@@ -370,8 +371,8 @@ Description=Chat-App Daphne Service
 After=network.target
 
 [Service]
-#Type=simple
-Type=notify
+Type=simple
+#Type=notify
 User=www
 WorkingDirectory=/home/www/code/chat/backend/
 ExecStart=/bin/bash /home/www/code/chat/backend/bin/start_daphne.sh
