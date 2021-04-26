@@ -122,6 +122,11 @@ vim ~/.zshrc
     alias la='ls -A'
     alias l='ls -CF'
     alias ls="ls --color -l"
+    
+    # if problem with systemctl sugestions
+    _systemctl_unit_state() {
+	  typeset -gA _sys_unit_state
+	  _sys_unit_state=( $(__systemctl list-unit-files "$PREFIX*" | awk '{print $1, $2}') ) }
 
 source ~/.zshrc
 ```
