@@ -1,6 +1,7 @@
 # Ubuntu Server Set Up for Flask Instruction
 
 Guide for seting up clean Ubuntu server for Flask project. Seting up SSH, Postgresql, Gunicorn, Nginx.
+My [flask_blog](https://github.com/dmitriyvek/flask-blog) app was used as an example.
 
 ## Create user on server
 
