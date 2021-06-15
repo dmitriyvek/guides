@@ -91,7 +91,7 @@ sudo ufw enable
 ## Install must-have packages & ZSH
 
 ```
-sudo apt-get install -y zsh tree nginx zlib1g-dev libbz2-dev libreadline-dev llvm libncurses5-dev libncursesw5-dev xz-utils liblzma-dev python3-dev python3-lxml python-libxml2  libffi-dev libssl-dev libsqlite3-dev libpq-dev libxml2-dev libxslt1-dev libjpeg-dev libfreetype6-dev libcurl4-openssl-dev libgdbm-dev libnss3-dev supervisor virtualen certbot python3-certbot-nginx
+sudo apt-get install -y zsh tree nginx zlib1g-dev libbz2-dev libreadline-dev llvm libncurses5-dev libncursesw5-dev xz-utils liblzma-dev python3-dev python3-lxml python-libxml2  libffi-dev libssl-dev libsqlite3-dev libpq-dev libxml2-dev libxslt1-dev libjpeg-dev libfreetype6-dev libcurl4-openssl-dev libgdbm-dev libnss3-dev supervisor virtualenv certbot python3-certbot-nginx
 ```
 
 Install [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh):
@@ -123,6 +123,11 @@ vim ~/.zshrc
     alias la='ls -A'
     alias l='ls -CF'
     alias ls="ls --color -l"
+    
+    # if problem with systemctl sugestions
+    _systemctl_unit_state() {
+	  typeset -gA _sys_unit_state
+	  _sys_unit_state=( $(__systemctl list-unit-files "$PREFIX*" | awk '{print $1, $2}') ) }
 
 source ~/.zshrc
 ```
@@ -241,7 +246,8 @@ sudo /home/www/.python/bin/python3.8 -m pip install -U pip
 Generate new ssh key and add it to github:
 
 ```
-ssh-keygen -b 3072
+cd ~/.ssh/
+ssh-keygen -b 3072 -f github_rsa
 
 # if custom key name
 vim ~/.ssh/config
@@ -345,7 +351,8 @@ sudo vim /etc/systemd/system/NAME.service
     After=network.target
 
     [Service]
-    Type=notify
+    #Type=notify
+    Type=simple
     User=www
     WorkingDirectory=/home/www/code/chat/backend/
     ExecStart=/bin/bash /home/www/code/chat/backend/bin/start_gunicorn.sh
@@ -370,8 +377,8 @@ Description=Chat-App Daphne Service
 After=network.target
 
 [Service]
-#Type=simple
-Type=notify
+Type=simple
+#Type=notify
 User=www
 WorkingDirectory=/home/www/code/chat/backend/
 ExecStart=/bin/bash /home/www/code/chat/backend/bin/start_daphne.sh
