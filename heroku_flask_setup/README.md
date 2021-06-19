@@ -76,6 +76,32 @@ vim heroku.env
 heroku config:set $(cat heroku.env | sed '/^$/d; /#[[:print:]]*$/d')
 ```
 
+## Setting up nginx
+
+Adding nginx buildpack:
+
+```
+heroku buildpacks:add heroku-community/nginx
+```
+
+Changing gunicorn config:
+
+```
+vim ./config/gunicorn_heroku_config.py
+  def when_ready(server):
+      # touch app-initialized when ready
+      open('/tmp/app-initialized', 'w').close()
+
+  bind = 'unix:///tmp/nginx.socket'
+  workers = 3
+```
+
+Edditing Procfile:
+
+```
+web: flask db upgrade; bin/start-nginx gunicorn -c ./config/gunicorn_heroku_config.py wsgi:app
+```
+
 ## Deploying app
 
 Pushing to heroku repo and seting dyno scale:
