@@ -398,7 +398,9 @@ sudo certbot certonly --nginx -d dmitriyvek.com -d www.dmitriyvek.com
 Delete default config and create custom:
 
 ```
+sudo rm /etc/nginx/sites-enabled/default
 sudo rm /etc/nginx/sites-available/default
+
 sudo vim /etc/nginx/sites-available/PROJECT_NAME
     server {
         #listen [::]:443 ssl ipv6only=on;
@@ -452,6 +454,11 @@ sudo nginx -t
 sudo nginx -s reload
 
 sudo certbot renew --dry-run
+```
+
+Update firwall settings:
+```
+sudo ufw allow http
 ```
 
 Make letsencrypt keys backup:
